@@ -2,7 +2,7 @@
 "use client";
 import React from "react";
 import { SparklesCore } from "../components/ui/sparkles";
-import { WavyBackground } from "../components/ui/wavy-background";
+
 import {
   Menubar,
   MenubarContent,
