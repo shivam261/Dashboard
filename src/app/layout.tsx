@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sign in ",
-  description: "Login to your account",
+  title: "Welcome to Integration Content",
+  description: "Manage your integration content efficiently",
 };
 
 export default function RootLayout({
