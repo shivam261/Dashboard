@@ -98,26 +98,24 @@ export default function SparklesPreview() {
             >
               Login
             </MenubarTrigger>
-            <MenubarContent className="dark:bg-gray-900 dark:border-gray-700">
-             
-            </MenubarContent>
+
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger className="dark:text-white dark:hover:bg-gray-800">Sign-up</MenubarTrigger>
-            <MenubarContent className="dark:bg-gray-900 dark:border-gray-700">
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Undo</MenubarItem>
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Redo</MenubarItem>
-              <MenubarSeparator />
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Find</MenubarItem>
-            </MenubarContent>
+            <MenubarTrigger 
+              className="dark:text-white dark:hover:bg-gray-800 cursor-pointer" 
+              onClick={handleLoginClick}
+            >
+              Sign Up
+            </MenubarTrigger>
+            
           </MenubarMenu>
           <MenubarMenu>
             <MenubarTrigger className="dark:text-white dark:hover:bg-gray-800">Team</MenubarTrigger>
             <MenubarContent className="dark:bg-gray-900 dark:border-gray-700">
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Reload</MenubarItem>
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Force Reload</MenubarItem>
-              <MenubarSeparator />
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Toggle Fullscreen</MenubarItem>
+              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Shivam Tripathi</MenubarItem>
+              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Ankita</MenubarItem>
+              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Niranjan Yadav</MenubarItem>
+
             </MenubarContent>
           </MenubarMenu>
         </Menubar>

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "@/components/ui/navbar-menu";
 import { cn } from "@/lib/utils";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
-
+import DemoicPage from "@/ictable/page";
 import {
   IconArrowWaveRightUp,
   IconBoxAlignRightFilled,
@@ -16,7 +16,8 @@ import {
   IconTableColumn,
 } from "@tabler/icons-react";
 import { RuntimeArtifacts } from "@/radtable/columns";
-import DemoPage from "@/radtable/page";
+import { parse } from "path";
+import { m } from "motion/react";
 function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   return (
@@ -28,28 +29,27 @@ function Navbar({ className }: { className?: string }) {
           <div className="flex flex-col space-y-4 text-sm">
             <HoveredLink href="/dashboard/mm">Get Integration Packages</HoveredLink>
             <HoveredLink href="/dashboard">Get Runtime Integration packages</HoveredLink>
-            <HoveredLink href="/dashboard/mm">Get Value Mapping </HoveredLink>
-            <HoveredLink href="/dashboard/mm">Get Message Mapping</HoveredLink>
+            <HoveredLink href="#">Get Message Mapping</HoveredLink>
           </div>
         </MenuItem>
         <MenuItem setActive={setActive} active={active} item="Team">
           <div className="  text-sm grid grid-cols-2 gap-10 p-4">
             <ProductItem
               title="Shivam Tripathi"
-              href="https://algochurn.com"
+              href="#"
               src="https://assets.aceternity.com/demos/algochurn.webp"
               description="Lead Developer "
             />
             <ProductItem
               title="Ankita"
-              href="https://tailwindmasterkit.com"
-              src="https://assets.aceternity.com/demos/tailwindmasterkit.webp"
+              href="#"
+              src="https://assets.aceternity.com/demos/algochurn.webp"
               description="Backend Developer "
             />
             <ProductItem
               title="Niranjan Yadav"
               href="#"
-              src="https://assets.aceternity.com/demos/Screenshot+2024-02-21+at+11.51.31%E2%80%AFPM.png"
+              src="https://assets.aceternity.com/demos/algochurn.webp"
               description="team lead. Frontend enthusiast . expert in react js ."
             />
 
@@ -72,32 +72,33 @@ const Skeleton = () => (
   <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>
 );
 
-export default function DashboardComponent() {
+export default function DashboardmmComponent() {
 
   const router = useRouter();
   const [username, setUsername] = useState<string>('');
   const [token, setToken] = useState<string>('');
-  const[started,setStarted]=useState<number>(0);
-  const[error,setError]=useState<number>(0);
-  const[mm,setMm]=useState<number>(0);
-  const[tic,setTic]=useState<string>('');
+  const [totalRuntimeArtifacts,setTotalRuntimeArtifacts] = useState<string>('');
+  const [totalArtifactstarted,setTotalArtifactstarted] = useState<string>('');
+  const [error,setError] = useState<string>('');
+  const [t,setT] = useState<number>(0);
+  const [mm,setMm] = useState<string>('');
   const items = [
   {
     title: "Total Runtime Artifacts",
     description: "Total number of runtime artifacts",
-    header: <div className="flex items-center space-x-2 text-9xl">{started+error}</div>,
+    header: <div className="flex items-center space-x-2 text-9xl">{totalRuntimeArtifacts}</div>,
     icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: "Total Integration Packages",
     description: "Total Number of integration Packages",
-    header: <div className="flex items-center space-x-2 text-9xl">{tic}</div>,
+    header: <div className="flex items-center space-x-2 text-9xl">{t}</div>,
     icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: "Total Deployed",
     description: "Total number of runtime artifacts deployed",
-    header: <div className="flex items-center space-x-2 text-9xl">{started}</div>,
+    header: <div className="flex items-center space-x-2 text-9xl">{totalArtifactstarted}</div>,
     icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
   },
   {
@@ -130,7 +131,7 @@ export default function DashboardComponent() {
             const username = localStorage.getItem('username');
             const token = localStorage.getItem('token');
             
-            const response = await fetch('/api/integration-artifacts', {
+            const response = await fetch('/api/integration-design-packages', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -149,8 +150,7 @@ export default function DashboardComponent() {
             const xmlDoc = parser.parseFromString(xmlText, "application/xml");
             const entries = xmlDoc.getElementsByTagName('m:properties');
 
-            var started=0;
-            var error=0
+
             for (let i = 0; i < entries.length; i++) {
               const id = entries[i].getElementsByTagName('d:Id')[0]?.textContent || '';
               const name = entries[i].getElementsByTagName('d:Name')[0]?.textContent || '';
@@ -159,64 +159,27 @@ export default function DashboardComponent() {
               const DeployedBy = entries[i].getElementsByTagName('d:DeployedBy')[0]?.textContent || '';
               const DeployedOn = entries[i].getElementsByTagName('d:DeployedOn')[0]?.textContent || '';
               const Status = entries[i].getElementsByTagName('d:Status')[0]?.textContent || '';
-              if(Status==="STARTED") started=started+1;
-              if(Status==="ERROR") error=error+1;
+
             }
 
-
-            setStarted(started);
-            setError(error);
-            setTic(localStorage.getItem("totalic") || "0");
+            setT(entries.length);
+            localStorage.setItem("totalic",entries.length.toString());
             // also store started and error count in localstorage
-            localStorage.setItem('started', started.toString());
-            localStorage.setItem('error', error.toString());
-
+            var ttotalArtifactstarted = (localStorage.getItem("started") || "0");
+            var ttotalRuntimeArtifacts = parseInt(localStorage.getItem("started") || "Not Found") + parseInt(localStorage.getItem("error") || "0");
+            setTotalArtifactstarted(ttotalArtifactstarted);
+            setError(ttotalRuntimeArtifacts-parseInt(ttotalArtifactstarted)+"");
+            setTotalRuntimeArtifacts((  ttotalRuntimeArtifacts).toString());
           } catch (error) {
             console.error('Error:', error);
           }
         };
         
         fetchData();
+        setMm(localStorage.getItem("totalmm") || "0");
     setUsername(storedUsername);
     setToken(storedToken);
   }, []);
-  useEffect(() => { 
-         const fetchData = async () => {
-          try {
-            const username = localStorage.getItem('username');
-            const token = localStorage.getItem('token');
-
-            const response = await fetch('/api/mmapping', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                username: username,
-                token: token,
-              }),
-            });
-            
-            const xmlText = await response.text();  
-
-            
-            // Parse XML and extract runtime artifacts data
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-            const entries = xmlDoc.getElementsByTagName('m:properties');
-
-            var length=entries.length;
-            localStorage.setItem("totalmm",length.toString());
-            setMm(length);
-            
-
-
-          } catch (error) {
-            console.error('Error:', error);
-          }
-        };
-        fetchData();
-  },[])
 
   return (
     <div className="relative w-full min-h-screen">
@@ -252,7 +215,7 @@ export default function DashboardComponent() {
 
         </div>
       </div>
-        <DemoPage/>
+        <DemoicPage  />
     </div>
   );
 }
