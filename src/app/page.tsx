@@ -1,7 +1,9 @@
 
 "use client";
 import React from "react";
-import { SparklesCore } from "../components/ui/sparkles";
+import { useRouter } from "next/navigation";
+import { SparklesCore } from "@/components/ui/sparkles";
+
 
 import {
   Menubar,
@@ -15,6 +17,12 @@ import {
 import { HoverEffect } from "../components/ui/card-hover-effect";
 
 export default function SparklesPreview() {
+  const router = useRouter();
+
+  const handleLoginClick = () => {
+    router.push('/login');
+  };
+
   const projects = [
     {
       title: "Integration Content",
@@ -56,7 +64,7 @@ export default function SparklesPreview() {
 
   return (
     <div 
-      className="min-h-screen w-full bg-black flex flex-col overflow-hidden"
+      className="min-h-screen w-full bg-black flex flex-col overflow-hidden dark"
       style={{ 
         minHeight: '100vh', 
         width: '100%', 
@@ -82,18 +90,16 @@ export default function SparklesPreview() {
         }}
       >
         <div style={{ position: 'relative', zIndex: 51 }}>
-          <Menubar className="dark:bg-gray-900/90 dark:border-gray-700 dark:text-white bg-white border-gray-200 text-gray-900 backdrop-blur-sm">
+          <Menubar className="dark:bg-gray-900/90 dark:border-gray-700 dark:text-white bg-white border-gray-200 text-gray-900 backdrop-blur-sm ">
             <MenubarMenu>
-            <MenubarTrigger className="dark:text-white dark:hover:bg-gray-800">Login</MenubarTrigger>
+            <MenubarTrigger 
+              className="dark:text-white dark:hover:bg-gray-800 cursor-pointer" 
+              onClick={handleLoginClick}
+            >
+              Login
+            </MenubarTrigger>
             <MenubarContent className="dark:bg-gray-900 dark:border-gray-700">
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">
-                New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-              </MenubarItem>
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">New Window</MenubarItem>
-              <MenubarSeparator />
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Share</MenubarItem>
-              <MenubarSeparator />
-              <MenubarItem className="dark:text-white dark:hover:bg-gray-800">Print</MenubarItem>
+             
             </MenubarContent>
           </MenubarMenu>
           <MenubarMenu>
